@@ -531,9 +531,13 @@ end
 
 Main.new = {}
 Main.main = function() 
+  function playdate.update();
   local player = playdate.geometry.rect.new(5, 5, 10, 10);
   playdate.graphics.clear(playdate.graphics.kColorWhite);
   playdate.graphics.drawRect(30, 30, 20, 20);
+  playdate.graphics.setColor(playdate.graphics.kColorBlack);
+  playdate.graphics.fillRect(50, 50, 100, 100);
+  end;
 end
 
 Math.new = {}
