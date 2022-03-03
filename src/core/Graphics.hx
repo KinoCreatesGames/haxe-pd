@@ -1,5 +1,8 @@
 package core;
 
+import geometry.Point;
+import geometry.LineSegment;
+
 /**
  * Drawing location.
  */
@@ -9,6 +12,8 @@ typedef Location = Int;
  * The drawing mode the playdate is in.
  */
 typedef DrawMode = Int;
+
+typedef LineCapStyle = Int;
 
 @:native('playdate.graphics')
 extern class Graphics {
@@ -36,6 +41,13 @@ extern class Graphics {
 
 	@:luaDotMethod
 	public static var kDrawModeWhiteTransparent:DrawMode;
+
+	@:luaDotMethod
+	public static var kLineCapStyleButt:LineCapStyle;
+	@:luaDotMethod
+	public static var kLineCapStyleRound:LineCapStyle;
+	@:luaDotMethod
+	public static var kLineCapStyleSquare:LineCapStyle;
 
 	/**
 	 * Clears the screen.
@@ -81,6 +93,44 @@ extern class Graphics {
 	 */
 	@:luaDotMethod
 	public static function drawRect(x:Float, y:Float, width:Float, height:Float):Void;
+
+	/**
+	 * Draws a line from x1, y1 to x2, y2.
+	 * End cap of the line is specified with 
+	 * `setLineCapStyle()`.
+	 * `setLineWidth()` determines the line width.
+	 * @param x1 
+	 * @param y1 
+	 * @param x2 
+	 * @param y2 
+	 */
+	@:luaDotMethod
+	overload public static function drawLine(x1:Float, y1:Float, x2:Float, y2:Float):Void;
+
+	/**
+	 * Draws a line from x1, y1 to x2, y2 of the line segment.
+	 * End cap of the line is specified with 
+	 * `setLineCapStyle()`.
+	 * `setLineWidth()` determines the line width.
+	 * @param ls 
+	 */
+	@:luaDotMethod
+	overload public static function drawLine(ls:LineSegment):Void;
+
+	/**
+	 * Draws a single pixel in the current color at x, y.
+	 * @param x 
+	 * @param y 
+	 */
+	@:luaDotMethod
+	overload public static function drawPixel(x:Float, y:Float):Void;
+
+	/**
+	 * Draws a single pixel in the current color at the point.
+	 * @param point
+	 */
+	@:luaDotMethod
+	overload public static function drawPixel(point:Point):Void;
 
 	/**
 	 * Sets the color for drawing.

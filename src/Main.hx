@@ -1,6 +1,6 @@
 import util.PD.pdupdate;
 import core.Playdate;
-import core.Rect;
+import geometry.Rect;
 import core.Image;
 import core.Sprite;
 import core.Graphics;
