@@ -15,3 +15,5 @@
 -dce full
 
 --lua main.lua
+
+--cmd pdc . test.pdx

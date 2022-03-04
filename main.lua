@@ -199,6 +199,7 @@ local Main = _hx_e()
 local Math = _hx_e()
 local String = _hx_e()
 local Std = _hx_e()
+__haxe_Log = _hx_e()
 __haxe_iterators_ArrayIterator = _hx_e()
 __haxe_iterators_ArrayKeyValueIterator = _hx_e()
 
@@ -533,10 +534,19 @@ Main.new = {}
 Main.main = function() 
   function playdate.update();
   local player = playdate.geometry.rect.new(5, 5, 10, 10);
+  local image = playdate.graphics.image.new("");
+  local p = playdate.graphics.sprite.new(image);
+  __haxe_Log.trace(p.x, _hx_o({__fields__={fileName=true,lineNumber=true,className=true,methodName=true},fileName="src/Main.hx",lineNumber=18,className="Main",methodName="update"}));
   playdate.graphics.clear(playdate.graphics.kColorWhite);
   playdate.graphics.drawRect(30, 30, 20, 20);
+  playdate.drawFPS(10, 10);
   playdate.graphics.setColor(playdate.graphics.kColorBlack);
-  playdate.graphics.fillRect(50, 50, 100, 100);
+  local size = 100;
+  local center = 100;
+  local radius = 50;
+  local t = playdate.getElapsedTime();
+  playdate.graphics.fillRect(center + (_G.math.cos(t) * radius), center + (_G.math.sin(t) * radius), size, size);
+  __haxe_Log.trace(center * (_G.math.cos(t) + radius), _hx_o({__fields__={fileName=true,lineNumber=true,className=true,methodName=true},fileName="src/Main.hx",lineNumber=30,className="Main",methodName="update"}));
   end;
 end
 
@@ -749,6 +759,29 @@ Std.int = function(x)
   end;
 end
 
+__haxe_Log.new = {}
+__haxe_Log.formatOutput = function(v,infos) 
+  local str = Std.string(v);
+  if (infos == nil) then 
+    do return str end;
+  end;
+  local pstr = Std.string(Std.string(infos.fileName) .. Std.string(":")) .. Std.string(infos.lineNumber);
+  if (infos.customParams ~= nil) then 
+    local _g = 0;
+    local _g1 = infos.customParams;
+    while (_g < _g1.length) do 
+      local v = _g1[_g];
+      _g = _g + 1;
+      str = Std.string(str) .. Std.string((Std.string(", ") .. Std.string(Std.string(v))));
+    end;
+  end;
+  do return Std.string(Std.string(pstr) .. Std.string(": ")) .. Std.string(str) end;
+end
+__haxe_Log.trace = function(v,infos) 
+  local str = __haxe_Log.formatOutput(v, infos);
+  _hx_print(str);
+end
+
 __haxe_iterators_ArrayIterator.new = function(array) 
   local self = _hx_new(__haxe_iterators_ArrayIterator.prototype)
   __haxe_iterators_ArrayIterator.super(self,array)
@@ -812,6 +845,8 @@ _hx_array_mt.__index = Array.prototype
 local _hx_static_init = function()
   
 end
+
+_hx_print = print or (function() end)
 
 _hx_static_init();
 _G.xpcall(Main.main, _hx_error)

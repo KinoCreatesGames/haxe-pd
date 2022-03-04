@@ -1,5 +1,11 @@
 package core;
 
+import core.Types.XY;
+import core.Types.ScaleXY;
+import core.Types.WidthHeight;
+import core.Types.XYWHeight;
+import geometry.Rect;
+
 @:native('playdate.graphics.sprite')
 extern class Sprite {
 	// Static Methods
@@ -272,28 +278,100 @@ extern class Sprite {
 	 * @return Bool
 	 */
 	public function collisionsEnabled():Bool;
-}
 
-// Multireturn x, y
-@:multiReturn extern class XY {
-	var x:Int;
-	var y:Int;
-}
+	/**
+	 * When set to true,
+	 * the sprite will draw in screen coordinates, ignoring the currently
+	 * set draw offset.
+	 * @param flag 
+	 */
+	public function setIgnoresDrawOffset(flag:Bool):Void;
 
-@:multiReturn extern class ScaleXY {
-	var xScale:Float;
-	var yScale:Float;
-}
+	/**
+	 * Positions and sizes the sprites, used for drawing
+	 * and for calculating dirty rects.
+	 * upper left x, y, are relative to the 
+	 * overall display coordinate system.
+	 * @param upperLeftX 
+	 * @param upperLeftY 
+	 * @param width 
+	 * @param height 
+	 */
+	overload public function setBounds(upperLeftX:Float, upperLeftY:Float, width:Float, height:Float):Void;
 
-// Multireturn in Haxe
-@:multiReturn extern class WidthHeight {
-	var width:Int;
-	var height:Int;
-}
+	/**
+	 * Positions and sizes the sprites, used for drawing
+	 * and for calculating dirty rects.
+	 * upper left x, y, are relative to the 
+	 * overall display coordinate system.
+	 * @param rect
+	 */
+	overload public function setBounds(rect:Rect):Void;
 
-@:multiReturn extern class XYWHeight {
-	var x:Int;
-	var y:Int;
-	var width:Int;
-	var height:Int;
+	/**
+	 * Gets the bounds 
+	 * as a tuple x, y, width, height.
+	 * @return XYWHeight
+	 */
+	public function getBounds():XYWHeight;
+
+	/**
+	 * Gets the bounds
+	 * as a rectangle format.
+	 * @return Rect
+	 */
+	public function getBoundsRect():Rect;
+
+	/**
+	 * Marks a sprite opaque, tells the sprite
+	 * system that it doesn't need to draw anything underneath the
+	 * sprite. If you set an image without a mask, alpha channel on
+	 * the sprite, it automatically sets the opaque flag.
+	 * @param flag 
+	 */
+	public function setOpaque(flag:Bool):Void;
+
+	/**
+		* A convenience function that creates a screen sized sprite
+		* with a z-index set to the lowest possible value so it will
+		* draw behind other sprites, and adds the sprite to the
+		* display list so that it is drawn in the current scene. 
+		* The background sprite ignores the drawOffset, and
+		* will not be automatically redrawn when the draw offset changes;use
+		* `redrawBackground`.
+		* drawCallback will be called from the newly-created background
+		* sprite's callback function and is where you should
+		* do your backgorund drawing. The callback should a function
+		* of the form `draw(x, y, width, height)` (screen coordinates, not world).
+		* of the background to be drawn.
+		* 
+		* Lua Implementation
+		* ```lua
+		function playdate.graphics.sprite.setBackgroundDrawingCallback(drawCallback)
+			bgsprite = gfx.sprite.new()
+			bgsprite:setSize(playdate.display.getSize())
+			bgsprite:setCenter(0, 0)
+			bgsprite:moveTo(0, 0)
+			bgsprite:setZIndex(-32768)
+			bgsprite:setIgnoresDrawOffset(true)
+			bgsprite:setUpdatesEnabled(false)
+			bgsprite.draw = function(s, x, y, w, h)
+							drawCallback(x, y, w, h)
+					end
+				bgsprite:add()
+				return s
+			end 
+		* ```
+		* @param drawCallback 
+	 */
+	@:luaDotMethod
+	public static function setBackgroundDrawingCallback(drawCallback:(x:Float, y:Float, width:Float, height:Float) -> Void):Void;
+
+	/**
+	 * Redrawns the background by marking the background
+	 * sprite as dirty, forcing the drawing callback to be run
+	 * when the `sprite.update()`  is called (all sprites are updated).
+	 */
+	@:luaDotMethod
+	public static function redrawBackground():Void;
 }
