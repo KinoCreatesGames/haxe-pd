@@ -63,3 +63,8 @@ import geometry.Point;
 	@:optional
 	var intersectionPoints:Array<Point>;
 }
+
+@:multiReturn extern class DeltaPos {
+	var dx:Float;
+	var dy:Float;
+}
