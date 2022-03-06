@@ -1,3 +1,4 @@
+import util.PD.coroutineYield;
 import util.PD.pdupdate;
 import core.Playdate;
 import geometry.Rect;
@@ -28,5 +29,6 @@ class Main {
 		var t = Playdate.getElapsedTime();
 		Graphics.fillRect(center + (Math.cos(t) * radius), center + (Math.sin(t) * radius), size, size);
 		trace(center * (Math.cos(t) + radius));
+		coroutineYield();
 	}
 }

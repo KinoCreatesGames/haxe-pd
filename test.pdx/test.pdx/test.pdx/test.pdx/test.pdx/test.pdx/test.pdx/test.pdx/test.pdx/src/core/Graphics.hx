@@ -12,9 +12,10 @@ typedef Location = Int;
 /**
  * The drawing mode the playdate is in.
  */
-typedef DrawMode = Int;
+typedef DrawMode = String;
 
 typedef LineCapStyle = Int;
+typedef PolyFillRule = Int;
 
 @:native('playdate.graphics')
 extern class Graphics {
@@ -37,11 +38,24 @@ extern class Graphics {
 	@:luaDotMethod
 	public static var kStrokeInside:Location;
 
+	// Drawing Modes
+	public static var kDrawModeCopy:DrawMode;
+
 	@:luaDotMethod
 	public static var kDrawModeBlackTransparent:DrawMode;
 
 	@:luaDotMethod
 	public static var kDrawModeWhiteTransparent:DrawMode;
+
+	public static var kDrawModeFillWhite:DrawMode;
+
+	public static var kDrawModeFillBlack:DrawMode;
+
+	public static var kDrawModeXOR:DrawMode;
+
+	public static var kDrawModeNXOR:DrawMode;
+
+	public static var kDrawModeInverted:DrawMode;
 
 	@:luaDotMethod
 	public static var kLineCapStyleButt:LineCapStyle;
@@ -49,6 +63,10 @@ extern class Graphics {
 	public static var kLineCapStyleRound:LineCapStyle;
 	@:luaDotMethod
 	public static var kLineCapStyleSquare:LineCapStyle;
+
+	// Poly Fill Modes
+	public static var kPolygonFillNonZero:PolyFillRule;
+	public static var kPolygonFillEvenOdd:PolyFillRule;
 
 	/**
 	 * Clears the screen.
@@ -238,4 +256,47 @@ extern class Graphics {
 	 */
 	@:luaDotMethod
 	public static function unlockFocus():Void;
+
+	/**
+	 * Sets the winding rule for the polygons to one of:
+	 * playdate.graphics.kPolygonFillNonZero
+	 * playdate.graphics.kPolygonFillEvenOdd
+	 * 
+	 * See https://en.wikipedia.org/wiki/Nonzero-rule 
+	 * for an explanation of the winding rule.
+	 * @param rule 
+	 */
+	@:luaDotMethod
+	public static function setPolygonFillRule(rule:PolyFillRule):Void;
+
+	/**
+	 * Gets the current drawing mode for images.
+	 * @return DrawMode
+	 */
+	@:luaDotMethod
+	public static function getImageDrawMode():DrawMode;
+
+	/**
+	 * Sets the current drawing mode for images.
+	 * Possible Values:
+	 * ```
+	 * kDrawModeCopy
+	 * kDrawModeWhiteTransparent
+	 * kDrawModeBlackTransparent
+	 * kDrawModeFillWhite
+	 * kDrawModeFillBlack
+	 * kDrawModeXOR
+	 * kDrawModeXOR
+	 * kDrawModeXOR
+	 * ```
+	 * Instead of the above-specified constants, you can also use 
+	 * one of the following strings: 
+	 * ```
+	 * "copy", "inverted", "XOR", "NXOR", 
+	 * "whiteTransparent", "blackTransparent", 
+	 * "fillWhite", or "fillBlack".
+	 * ```
+	 * @param mode 
+	 */
+	public static function setImageDrawMode(mode:DrawMode):Void;
 }

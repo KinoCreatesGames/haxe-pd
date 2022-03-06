@@ -34,6 +34,14 @@ extern class Playdate {
 	public static var kButtonLeft:Button;
 
 	/**
+	 * The `playdate.metadata` table contains the values in the 
+	 * current game’s pdxinfo file, keyed by variable name. 
+	 * To retrieve the version number of the game, for example, 
+	 * you would use `playdate.metadata.version`.
+	 */
+	public static var metaData:Table<String, Dynamic>;
+
+	/**
 	 * Checks whether a button is pressed or not.
 	 * @return Bool
 	 */
@@ -190,4 +198,12 @@ extern class Playdate {
 	 */
 	@:luaDotMethod
 	public static function drawFPS(x:Float, y:Float):Void;
+
+	/**
+	 * Returns two values, the current API version of the Playdate
+	 * runtime and the minimum API verison supported by the run time.
+	 * @return String
+	 */
+	@:luaDotMethod
+	public static function apiVersion():String;
 }

@@ -536,7 +536,7 @@ Main.main = function()
   local player = playdate.geometry.rect.new(5, 5, 10, 10);
   local image = playdate.graphics.image.new("");
   local p = playdate.graphics.sprite.new(image);
-  __haxe_Log.trace(p.x, _hx_o({__fields__={fileName=true,lineNumber=true,className=true,methodName=true},fileName="src/Main.hx",lineNumber=18,className="Main",methodName="update"}));
+  __haxe_Log.trace(p.x, _hx_o({__fields__={fileName=true,lineNumber=true,className=true,methodName=true},fileName="src/Main.hx",lineNumber=19,className="Main",methodName="update"}));
   playdate.graphics.clear(playdate.graphics.kColorWhite);
   playdate.graphics.drawRect(30, 30, 20, 20);
   playdate.drawFPS(10, 10);
@@ -546,7 +546,8 @@ Main.main = function()
   local radius = 50;
   local t = playdate.getElapsedTime();
   playdate.graphics.fillRect(center + (_G.math.cos(t) * radius), center + (_G.math.sin(t) * radius), size, size);
-  __haxe_Log.trace(center * (_G.math.cos(t) + radius), _hx_o({__fields__={fileName=true,lineNumber=true,className=true,methodName=true},fileName="src/Main.hx",lineNumber=30,className="Main",methodName="update"}));
+  __haxe_Log.trace(center * (_G.math.cos(t) + radius), _hx_o({__fields__={fileName=true,lineNumber=true,className=true,methodName=true},fileName="src/Main.hx",lineNumber=31,className="Main",methodName="update"}));
+  coroutine.yield();
   end;
 end
 
