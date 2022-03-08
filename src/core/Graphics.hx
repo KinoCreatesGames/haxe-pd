@@ -1,5 +1,7 @@
 package core;
 
+import geometry.Arc;
+import core.Types.WidthHeight;
 import geometry.Rect;
 import geometry.Point;
 import geometry.LineSegment;
@@ -16,6 +18,7 @@ typedef DrawMode = String;
 
 typedef LineCapStyle = Int;
 typedef PolyFillRule = Int;
+typedef Color = Int;
 
 @:native('playdate.graphics')
 extern class Graphics {
@@ -23,13 +26,20 @@ extern class Graphics {
 	 * White color for clearing the screen
 	 */
 	@:luaDotMethod
-	public static var kColorWhite:Int;
+	public static var kColorWhite:Color;
 
 	/**
 	 * Black color for clearing the screen
 	 */
 	@:luaDotMethod
-	public static var kColorBlack:Int;
+	public static var kColorBlack:Color;
+
+	/**
+	 * Clear color for clearing the screen.
+	 * This represents transparent.
+	 */
+	@:luaDotMethod
+	public static var kColorClear:Color;
 
 	@:luaDotMethod
 	public static var kStrokeCentered:Location;
@@ -206,6 +216,73 @@ extern class Graphics {
 	overload public static function drawPixel(point:Point):Void;
 
 	/**
+	 * Draws an arc using the current color.
+	 * Angles are specified in degrees not radians.
+	 * @param x 
+	 * @param y 
+	 * @param radius 
+	 * @param startAngle 
+	 * @param endAngle 
+	 */
+	@:luaDotMethod
+	overload public static function drawArc(x:Float, y:Float, radius:Float, startAngle:Float, endAngle:Float):Void;
+
+	/**
+	 * Draws an arc using the current color.
+	 * Angles are specified in degrees not radians.
+	 * @param arc 
+	 */
+	@:luaDotMethod
+	overload public static function drawArc(arc:Arc):Void;
+
+	/**
+	 * Draws a circle at the point (x, y) with the radius `radius`.
+	 * @param x 
+	 * @param y 
+	 * @param radius 
+	 */
+	@:luaDotMethod
+	overload public static function drawCircleAtPoint(x:Float, y:Float, radius:Float):Void;
+
+	/**
+	 * Draws a circle at the point (x,y) with the radius `radius`.
+	 * @param point 
+	 * @param radius 
+	 */
+	@:luaDotMethod
+	overload public static function drawCircleAtPoint(point:Point, radius:Float):Void;
+
+	/**
+	 * Fills a circle at the point (x, y) with the radius `radius`.
+	 * @param x 
+	 * @param y 
+	 * @param radius 
+	 */
+	@:luaDotMethod
+	overload public static function fillCircleAtPoint(x:Float, y:Float, radius:Float):Void;
+
+	/**
+	 * Fills a circle at the point (x,y) with the radius `radius`.
+	 * @param point 
+	 * @param radius 
+	 */
+	@:luaDotMethod
+	overload public static function fillCircleAtPoint(point:Point, radius:Float):Void;
+
+	/**
+	 * Fills a circle in the rect with the origin (x,y) and size (width, height).
+	 * If the rect is not a square, the circle will be drawn centered in the rect.e 
+	 */
+	@:luaDotMethod
+	overload public static function fillCircleInRect(rect:Rect):Void;
+
+	/**
+	 * Fills a circle in the rect with the origin (x,y) and size (width, height).
+	 */
+	@:luaDotMethod
+	overload public static function fillCircleInRect(x:Float, y:Float, width:Float, height:Float):Void;
+
+	/**
 	 * Sets the color for drawing.
 	 * @param color 
 	 */
@@ -298,5 +375,59 @@ extern class Graphics {
 	 * ```
 	 * @param mode 
 	 */
+	@:luaDotMethod
 	public static function setImageDrawMode(mode:DrawMode):Void;
+
+	/**
+	 * Sets the coloru sed for drawing the background. 
+	 * if necessary, before sprites are drawn on top.
+	 * 
+	 * * playdate.graphics.kColorBlack
+	 * * playdate.graphics.kColorWhite
+	 * * playdate.graphics.kColorClear
+	 * @param color 
+	 */
+	@:luaDotMethod
+	public static function setBackgroundColor(color:Color):Void;
+
+	/**
+	 * Returns the coloru sed for drawing the background.
+	 * If necessary, before drawing sprites on top.
+	 * @return Color
+	 */
+	@:luaDotMethod
+	public static function getBackgroundColor():Color;
+
+	/**
+	 * Sets the 8x8 pattern used for drawing. 
+	 * The pattern argument is an array of 8 numbers describing 
+	 * the bitmap for each row; for example, 
+	 * `{ 0xaa, 0x55, 0xaa, 0x55, 0xaa, 0x55, 0xaa, 0x55 }` 
+	 * specifies a checkerboard pattern. An additional 
+	 * 8 numbers can be specified for an alpha mask bitmap
+	 * @param pattern 
+	 */
+	@:luaDotMethod
+	overload public static function setPattern(pattern:Array<Int>):Void;
+
+	/**
+	 * Uses the given playdate.graphics.image to set the 8 x 8 
+	 * pattern used for drawing. The optional x, y offset 
+	 * (default 0, 0) indicates the top left corner of the 8 x 8 
+	 * pattern
+	 * @param image 
+	 * @param x 
+	 * @param y 
+	 */
+	@:luaDotMethod
+	overload public static function setPattern(image:Image, ?x:Float, ?y:Float):Void;
+
+	/**
+	 * Returns the pair (width, height) for the image at path
+	 * without actually loading the image.
+	 * @param path 
+	 * @return WidthHeight
+	 */
+	@:luaDotMethod
+	public static function imageSizeAtPath(path:String):WidthHeight;
 }

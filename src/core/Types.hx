@@ -16,8 +16,8 @@ import geometry.Point;
 
 // Multireturn in Haxe
 @:multiReturn extern class WidthHeight {
-	var width:Int;
-	var height:Int;
+	var width:Float;
+	var height:Float;
 }
 
 @:multiReturn extern class XYWHeight {
@@ -67,4 +67,9 @@ import geometry.Point;
 @:multiReturn extern class DeltaPos {
 	var dx:Float;
 	var dy:Float;
+}
+
+@:multiReturn extern class SuccessError {
+	var success:Bool;
+	var error:String;
 }
