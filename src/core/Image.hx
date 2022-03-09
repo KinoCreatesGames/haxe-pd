@@ -1,10 +1,12 @@
 package core;
 
+import geometry.Point;
 import core.Graphics.Color;
 import core.Types.WidthHeight;
 import core.Types.SuccessError;
 
 typedef DitherType = String;
+typedef ImageFlip = String;
 
 /**
  * Image class for creating the 
@@ -34,6 +36,14 @@ extern class Image {
 	public static var kDitherTypeBurkes:DitherType;
 
 	public static var kDitherTypeAtkinson:DitherType;
+
+	// Image flip types
+	// Alternately, one of the strings "flipX", "flipY",
+	// or "flipXY" can be used for the flip argument.
+	public static var kImageUnflipped:ImageFlip;
+	public static var kImageFlippedX:ImageFlip;
+	public static var kImageFlippedY:ImageFlip;
+	public static var kImageFlippedXY:ImageFlip;
 
 	public function new(imageName:String):Void;
 
@@ -208,4 +218,41 @@ extern class Image {
 	public function blurredImage(radius:Float, numPasses:Int, ditherType:DitherType, ?padEdges:Bool, ?xPhase:Int, ?yPhase:Int):Image;
 
 	public function blendWithImage(image:Image, alpha:Float, ditherType:DitherType):Image;
+
+	/**
+	 * Draws the image centered at location x, y
+	 *  Use one of the valid kImage flip modes or the below strings
+	 * for flip.
+	 * Alternately, one of the strings 
+	 * "flipX", "flipY", or "flipXY" can be used for the flip argument.
+	 * @param x 
+	 * @param y 
+	 * @param flip 
+	 */
+	public function drawCentered(x:Float, y:Float, ?flip:ImageFlip):Void;
+
+	/**
+	 * Draws the image ignoring the currently-set drawOffset.
+	 * @param x 
+	 * @param y 
+	 * @param flip 
+	 */
+	overload public function drawIgnoringOffset(x:Float, y:Float, ?flip:ImageFlip):Void;
+
+	/**
+	 * Draws the image ignoring the currently set
+	 * draw offset.
+	 * @param point 
+	 * @param flip 
+	 */
+	overload public function drawIgnoringOffset(point:Point, ?flip:ImageFlip):Void;
+
+	/**
+	 * Erases the contents of the image, setting all the pixels
+	 * to the type of color passed.  If a mask exists, it's set to fully
+	 * opaque. If the image is cleared to a clear color and the image
+	 * doesn't have a mask, a mask is added to it.
+	 * @param color 
+	 */
+	public function clear(color:Color):Void;
 }

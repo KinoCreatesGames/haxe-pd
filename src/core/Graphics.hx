@@ -430,4 +430,20 @@ extern class Graphics {
 	 */
 	@:luaDotMethod
 	public static function imageSizeAtPath(path:String):WidthHeight;
+
+	/**
+	 * Pushes the current graphics state to the context stack
+	 * and creates a new context. If an image is given,
+	 * drawing functions are applied to the image
+	 * instead of the screen buffer.
+	 * 
+	 * If you draw into an image with the clear color,
+	 * drawn pixels will be transparent when you draw the image
+	 * into the frame buffer, thus not rendered.
+	 * 
+	 * `lockFocus` will reroute drawing into an image, without
+	 * saving the overall graphics context.
+	 * @param image 
+	 */
+	public static function pushContext(?image:Image):Void;
 }
