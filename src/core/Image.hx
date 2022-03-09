@@ -4,14 +4,53 @@ import core.Graphics.Color;
 import core.Types.WidthHeight;
 import core.Types.SuccessError;
 
+typedef DitherType = String;
+
+/**
+ * Image class for creating the 
+ * images on the playdate.
+ */
 @:native('playdate.graphics.image')
 extern class Image {
+	// Dithering types
+	public static var kDitherTypeNone:DitherType;
+
+	public static var kDitherTypeDiagonalLine:DitherType;
+
+	public static var kDitherTypeVerticalLine:DitherType;
+
+	public static var kDitherTypeHorizontalLine:DitherType;
+
+	public static var kDitherTypeScreen:DitherType;
+
+	public static var kDitherTypeBayer2x2:DitherType;
+
+	public static var kDitherTypeBayer4x4:DitherType;
+
+	public static var kDitherTypeBayer8x8:DitherType;
+
+	public static var kDitherTypeFlordSteinberg:DitherType;
+
+	public static var kDitherTypeBurkes:DitherType;
+
+	public static var kDitherTypeAtkinson:DitherType;
+
 	public function new(imageName:String):Void;
 
 	/**
 	 * Draws the background image at the given coordinates.
 	 */
 	public function draw():Void;
+
+	/**
+	 * Draws a partially transparent image with its upper-left corner
+	 * at location (x, y).
+	 * @param x 
+	 * @param y 
+	 * @param alpha 
+	 * @param ditherType 
+	 */
+	public function drawFaded(x:Float, y:Float, alpha:Float, ditherType:DitherType):Void;
 
 	/**
 	 * Loads a new image from the data at path into an already-existing 
@@ -88,6 +127,14 @@ extern class Image {
 	public function removeMask():Void;
 
 	/**
+	 * Erases the contents of the image's mask, so that the image is entirely
+	 * opaque if opaque is 1, transparent otherwise. This function has no effect
+	 * if the image doesn't have a mask.
+	 * @param opaque 
+	 */
+	public function clearMask(opaque:Int):Void;
+
+	/**
 	 * Returns true if the image has a mask.
 	 * @return Bool
 	 */
@@ -107,4 +154,58 @@ extern class Image {
 	 * @return Image
 	 */
 	public function invertedImage():Image;
+
+	/**
+	 * Returns an image created by applying a VCR
+	 * pause effect to the caller image.
+	 * @return Image
+	 */
+	public function vcrPauseFilterImage():Image;
+
+	/**
+	 * Returns a faded version of the caller
+	 * .
+	 * * alpha: The alpha value assigned to the caller, in the range 0.0 - 1.0. If an image mask already exists it is multiplied by alpha.
+	 * * ditherType: The caller is faded into a greyscale image and dithered with one of the dithering algorithms listed in playdate.graphics.image:blurredImage()
+	 * @param alpha 
+	 * @param ditherType 
+	 * @return Image
+	 */
+	public function fadedImage(alpha:Float, ditherType:DitherType):Image;
+
+	/**
+	 * Returns a blurred copy of the caller.
+	 * * Radius: a bigger radius means a more blurred result; processing time 
+	 * independent of the radius.
+	 * * numPasses: A box blur is used to blur the image. More passes, more closely approximates gaussian blur.
+	 * Higher values take more time to process.
+	 * * ditherType: The original image is blurred into greyscale, then dithered back to 1-bit using
+	 * the below algorithms:
+	 * 
+	 * > * None
+	 * > * Diagonal Line
+	 * > * Vertical Line
+	 * > * Horizontal Line
+	 * > * Screen
+	 * > * Bayer2x2
+	 * > * Bayer4x4
+	 * > * Bayer 8x8
+	 * > * FloydSteinberg
+	 * > * TypeBurkes
+	 * > * Atkinson
+	 * 
+	 * * padEdges: boolean indicating whether the edges of the images should be padded to accomodate
+	 * the blur radius. Defaults to false
+	 * * xPhase, yPhase: optional; integer values that affect the apperance.
+	 * @param radius 
+	 * @param numPasses 
+	 * @param ditherType 
+	 * @param padEdges 
+	 * @param xPhase 
+	 * @param yPhase 
+	 * @return Image
+	 */
+	public function blurredImage(radius:Float, numPasses:Int, ditherType:DitherType, ?padEdges:Bool, ?xPhase:Int, ?yPhase:Int):Image;
+
+	public function blendWithImage(image:Image, alpha:Float, ditherType:DitherType):Image;
 }
