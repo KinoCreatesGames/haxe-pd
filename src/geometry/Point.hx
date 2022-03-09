@@ -7,6 +7,16 @@ import core.Types.XY;
  */
 @:native('playdate.geometry.point')
 extern class Point {
+	/**
+	 * X coordinate of the  point.
+	 */
+	public var x:Float;
+
+	/**
+	 * y coordinate of the point.
+	 */
+	public var y:Float;
+
 	public function new(x:Float, y:Float);
 
 	/**

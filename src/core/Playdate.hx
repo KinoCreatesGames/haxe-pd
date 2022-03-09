@@ -206,4 +206,29 @@ extern class Playdate {
 	 */
 	@:luaDotMethod
 	public static function apiVersion():String;
+
+	/**
+	 * Pauses the game execution.
+	 * Update will not be called, screen will freeze
+	 * during wait. Audio will continue to play.
+	 * Animation is possible, but must explicitly call
+	 * `playdate.display.flush()`
+	 */
+	@:luaDotMethod
+	public static function wait(milliseconds:Float):Void;
+
+	/**
+	 * Stops per-frame callbacks to `playdate.update()`. Useful
+	 * in confunction with `playdate.display.flush()` if 
+	 * your program only does things in response to button 
+	 * presses.
+	 */
+	@:luaDotMethod
+	public static function stop():Void;
+
+	/**
+	 * Resume per-frame callbacks to `playdate.update()`
+	 */
+	@:luaDotMethod
+	public static function start():Void;
 }

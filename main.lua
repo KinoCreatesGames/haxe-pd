@@ -199,6 +199,7 @@ local Main = _hx_e()
 local Math = _hx_e()
 local String = _hx_e()
 local Std = _hx_e()
+__extra_VertBar = _hx_e()
 __haxe_Log = _hx_e()
 __haxe_iterators_ArrayIterator = _hx_e()
 __haxe_iterators_ArrayKeyValueIterator = _hx_e()
@@ -535,18 +536,18 @@ Main.main = function()
   function playdate.update();
   local player = playdate.geometry.rect.new(5, 5, 10, 10);
   local image = playdate.graphics.image.new("");
-  local p = playdate.graphics.sprite.new(image);
-  __haxe_Log.trace(p.x, _hx_o({__fields__={fileName=true,lineNumber=true,className=true,methodName=true},fileName="src/Main.hx",lineNumber=19,className="Main",methodName="update"}));
   playdate.graphics.clear(playdate.graphics.kColorWhite);
   playdate.graphics.drawRect(30, 30, 20, 20);
   playdate.drawFPS(10, 10);
   playdate.graphics.setColor(playdate.graphics.kColorBlack);
-  local size = 100;
+  local realCenter = playdate.geometry.point.new(200., 120.);
   local center = 100;
   local radius = 50;
   local t = playdate.getElapsedTime();
-  playdate.graphics.fillRect(center + (_G.math.cos(t) * radius), center + (_G.math.sin(t) * radius), size, size);
-  __haxe_Log.trace(center * (_G.math.cos(t) + radius), _hx_o({__fields__={fileName=true,lineNumber=true,className=true,methodName=true},fileName="src/Main.hx",lineNumber=31,className="Main",methodName="update"}));
+  local bar = __extra_VertBar.new(50, 40, 150, 20);
+  bar:updatePerc(_G.math.abs(_G.math.sin(t)));
+  bar:draw();
+  __haxe_Log.trace(center * (_G.math.cos(t) + radius), _hx_o({__fields__={fileName=true,lineNumber=true,className=true,methodName=true},fileName="src/Main.hx",lineNumber=47,className="Main",methodName="update"}));
   coroutine.yield();
   end;
 end
@@ -758,6 +759,26 @@ Std.int = function(x)
   else
     do return _hx_bit_clamp(x) end;
   end;
+end
+
+__extra_VertBar.new = function(x,y,height,barWidth) 
+  local self = _hx_new(__extra_VertBar.prototype)
+  __extra_VertBar.super(self,x,y,height,barWidth)
+  return self
+end
+__extra_VertBar.super = function(self,x,y,height,barWidth) 
+  self.x = x;
+  self.y = y;
+  self.perc = 1;
+  self.height = height;
+  self.barWidth = barWidth;
+end
+__extra_VertBar.prototype = _hx_e();
+__extra_VertBar.prototype.updatePerc = function(self,perc) 
+  self.perc = perc;
+end
+__extra_VertBar.prototype.draw = function(self) 
+  playdate.graphics.fillRect(self.x, self.y, self.barWidth, self.height * self.perc);
 end
 
 __haxe_Log.new = {}

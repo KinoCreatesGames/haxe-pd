@@ -1,3 +1,4 @@
 *.pdx
 *.pdx/*
 test.pdx/
+test.pdx/*
