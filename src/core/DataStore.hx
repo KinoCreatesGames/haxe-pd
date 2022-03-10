@@ -13,7 +13,7 @@ extern class DataStore {
 	 * @param prettyPrint 
 	 */
 	@:luaDotMethod
-	public function write(table:lua.Table<String, Dynamic>, ?fileName:String, ?prettyPrint:Bool):Void;
+	public static function write(table:lua.Table<String, Dynamic>, ?fileName:String, ?prettyPrint:Bool):Void;
 
 	/**
 	 * Returns a table instanted with the data in the JSON
@@ -25,7 +25,7 @@ extern class DataStore {
 	 * @param fileName 
 	 */
 	@:luaDotMethod
-	public function read(?fileName:String):Null<lua.Table<String, Dynamic>>;
+	public static function read(?fileName:String):Null<lua.Table<String, Dynamic>>;
 
 	/**
 	 * Deletes the specified datastore file. The default
@@ -35,7 +35,7 @@ extern class DataStore {
 	 * @return Bool
 	 */
 	@:luaDotMethod
-	public function delete(?fileName:String):Bool;
+	public static function delete(?fileName:String):Bool;
 
 	/**
 	 * Saves a playdate image to a file.
@@ -50,7 +50,7 @@ extern class DataStore {
 	 * @param path 
 	 */
 	@:luaDotMethod
-	public function writeImage(image:Image, path:String):Void;
+	public static function writeImage(image:Image, path:String):Void;
 
 	/**
 	 * Reads an image from a file in the data folder. If the path doesn't
@@ -61,5 +61,6 @@ extern class DataStore {
 	 * @param path 
 	 * @return Image
 	 */
-	public function readImage(path:String):Image;
+	@:luaDotMethod
+	public static function readImage(path:String):Image;
 }
