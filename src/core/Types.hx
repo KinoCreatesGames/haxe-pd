@@ -73,3 +73,9 @@ import geometry.Point;
 	var success:Bool;
 	var error:String;
 }
+
+@:multiReturn extern class FileWrite {
+	var bytes:Int;
+	@:optional
+	var error:String;
+}
