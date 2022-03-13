@@ -231,4 +231,54 @@ extern class Playdate {
 	 */
 	@:luaDotMethod
 	public static function start():Void;
+
+	// Garbage Collection
+
+	/**
+	 * If flag is false, automatic garbage collection
+	 * is disabled and the game should manually collect
+	 * garbage with Lua's `collectgarbage()` function.
+	 * @param flag 
+	 */
+	@:luaDotMethod
+	public static function setcollectsGarbage(flag:Bool):Void;
+
+	/**
+	 * Force the Lua garbage collector to run for at least ms
+	 * milliseconds every frame, so that garbage doesn't pile up
+	 * and cause the game to run out of memory and stall in
+	 * emergency garbage collection.
+	 * 
+	 * The default value is 5 milliseconds.
+	 * `Note`: If your game isn’t generating a lot of garbage, 
+	 * it might be advantageous to set a smaller minimum GC time, 
+	 * granting more CPU bandwidth to your game.
+	 * 
+	 * @param ms
+	 */
+	public static function setMinimumGCTIme(ms:Float):Void;
+
+	/**
+	 * When the amount of used memory is less than `min` (scaled from
+	 * 0-1 as a percentage of totaly system memory), the system will
+	 * only run the collector for the minimum GC time, as set by 
+	 * `setGCScaling`, every frame. If the used memory is more than
+	 * `max`, the system will spend all free time running the collector.
+	 * 
+	 * Between the two, the time used by the garbage collector is
+	 * scaled proportionally.
+	 * 
+	 * For example, if the scaling is set to a min of 0.4 and max 0.7,
+	 * and memory is half full, the collector will run for the
+	 * minimum GC time plus 1/3 of whatever time isl eft before the 
+	 * next frame  (because (0.5 - 0.4) / (0.7 - 0.4) = 1/3).
+	 * 
+	 * The default behavior is a scaling of `(0.0, 1.0)`. If set to
+	 * `(0.0, 0.0)` the system will use all available extra time each 
+	 * frame running GC.
+	 * @param min 
+	 * @param max 
+	 */
+	@:luaDotMethod
+	public static function setGCScaling(min:Float, max:Float):Void;
 }
