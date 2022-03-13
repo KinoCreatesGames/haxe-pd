@@ -4,8 +4,15 @@ import haxe.extern.Rest;
 
 typedef EasingFunction = (t:Float, b:Float, c:Float, dur:Float) -> Float;
 
-@:native('playdate.timer')
-extern class Timer {
+/**
+ * Creates a new timer that is frame based.
+ * This is useful for frame-precise animation timings.
+ * 
+ * For time-based timers, you can use the 
+ * `Timer` class.
+ */
+@:native('playdate.frameTimer')
+extern class FrameTimer {
 	/**
 	 * Current value calculated from the start and end values, the
 	 * time elapsed and the easing funciton.
@@ -132,7 +139,11 @@ extern class Timer {
 	public var updateCallback:(args:Rest<Any>) -> Void;
 
 	/**
-	 * Updates all timers within the game.
+	 * This should be called from the main
+	 * update loop to drive the frame timers.
+	 * 
+	 * Updates all the frame timers
+	 * in the list.
 	 */
 	@:luaDotMethod
 	public static function updateTimers():Void;
@@ -147,14 +158,14 @@ extern class Timer {
 	 * @return Timer
 	 */
 	@:luaDotMethod
-	public static function performAfterDelay(delay:Float, callback:Rest<Dynamic>->Void):Timer;
+	public static function performAfterDelay(delay:Float, callback:Rest<Dynamic>->Void):FrameTimer;
 
 	/**
 	 * Returns an array listing all timers.
 	 * @return Array<Timer>
 	 */
 	@:luaDotMethod
-	public static function allTimers():Array<Timer>;
+	public static function allTimers():Array<FrameTimer>;
 
 	/**
 	 * 
@@ -188,7 +199,7 @@ extern class Timer {
 	 * @return Timer
 	 */
 	@:native('new')
-	public function delayTimer(duration:Float, ?startValue:Float, ?endValue:Float, ?easingFunction:EasingFunction):Timer;
+	public function delayTimer(duration:Float, ?startValue:Float, ?endValue:Float, ?easingFunction:EasingFunction):FrameTimer;
 
 	/**
 	 * Puases a timer. (No need to call start on an instantiated timer;
