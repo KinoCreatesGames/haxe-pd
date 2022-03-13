@@ -445,5 +445,6 @@ extern class Graphics {
 	 * saving the overall graphics context.
 	 * @param image 
 	 */
+	@:luaDotMethod
 	public static function pushContext(?image:Image):Void;
 }
