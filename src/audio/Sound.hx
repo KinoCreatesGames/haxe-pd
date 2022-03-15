@@ -1,5 +1,7 @@
 package audio;
 
+typedef SEffect = String;
+
 @:native('playdate.sound')
 extern class Sound {
 	/**
@@ -16,4 +18,28 @@ extern class Sound {
 	 */
 	@:luaDotMethod
 	public static function resetTime():Void;
+
+	/**
+	 * 
+	 * 'Adds the given sound effect to the default
+	 * sound channel.
+	 * 
+	 * Different Effects Include:
+	 * * bitcrusher
+	 * * twopolefilter
+	 * * oneppolefilter
+	 * * ringmod
+	 * * overdrive 
+	 * * delay line
+	 * @param effect 
+	 */
+	@:luaDotMethod
+	public static function addEffect(effect:Effect):Void;
+
+	/**
+	 * Removes the given effect from the default sound channel.
+	 * @param effect 
+	 */
+	@:luaDotMethod
+	public static function removeEffect(effect:Effect):Void;
 }
