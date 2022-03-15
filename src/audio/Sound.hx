@@ -1,9 +1,45 @@
 package audio;
 
 typedef SEffect = String;
+typedef PassType = String;
 
 @:native('playdate.sound')
 extern class Sound {
+	/**
+	 * "lowpass" or "lopass"
+	 */
+	public static var kFilterLowPass:PassType;
+
+	/**
+	 * "highpass" or "hipass"
+	 */
+	public static var kFilterHighPass:PassType;
+
+	/**
+	 * "bandpass"
+	 */
+	public static var kFilterBandPass:PassType;
+
+	/**
+	 * "notch"
+	 */
+	public static var kFilterNotch:PassType;
+
+	/**
+	 * "peq"
+	 */
+	public static var kFilterPEQ:PassType;
+
+	/**
+	 * "lowshelf" or "lowshelf"
+	 */
+	public static var kFilterLowShelf:PassType;
+
+	/**
+	 * "highshelf" or "hishelf"
+	 */
+	public static var kFilterHighShelf:PassType;
+
 	/**
 	 * Returns the current time, in seconds, as measured by
 	 * the audio device. The audio device uses its own time
