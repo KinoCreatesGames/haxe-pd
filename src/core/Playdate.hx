@@ -12,26 +12,145 @@ extern class Playdate {
 	/**
 	 * Dpad up
 	 */
-	@:luaDotMethod
 	public static var kButtonUp:Button;
 
 	/**
 	 * Dpad right
 	 */
-	@:luaDotMethod
 	public static var kButtonRight:Button;
 
 	/**
 	 * Dpad down
 	 */
-	@:luaDotMethod
 	public static var kButtonDown:Button;
 
 	/**
 	 * Dpad left
 	 */
-	@:luaDotMethod
 	public static var kButtonLeft:Button;
+
+	/**
+	 * A button
+	 */
+	public static var kButtonA:Button;
+
+	/**
+	 * B button
+	 */
+	public static var kButtonB:Button;
+
+	// Button callbacks
+
+	/**
+	 * Called immediately after the player presses the A button.
+	 * @return Bool
+	 */
+	@:luaDotMethod
+	public static function AButtonDown():Bool;
+
+	/**
+	 * Called after the A button is held down for one
+	 * second. This can be used for secondary actions (
+	 * displaying a game world map, changing weapons).
+	 * @return Bool
+	 */
+	@:luaDotMethod
+	public static function AButtonHeld():Bool;
+
+	/**
+	 * Called immediately after the player releases the A Button.
+	 * @return Bool
+	 */
+	@:luaDotMethod
+	public static function AButtonUp():Bool;
+
+	/**
+	 * Called immediately after the player presses the B 
+	 * Button.
+	 * @return Bool
+	 */
+	@:luaDotMethod
+	public static function BButtonDown():Bool;
+
+	/**
+	 * Called after the B button is held down for one second.
+	 * This can be used for secondary actions.
+	 * (displaying a game world map, changing weapons).
+	 * @return Bool
+	 */
+	@:luaDotMethod
+	public static function BButtonHeld():Bool;
+
+	/**
+	 * Called immediately after the player releases the B button.
+	 * @return Bool
+	 */
+	@:luaDotMethod
+	public static function BButtonUp():Bool;
+
+	/**
+	 * Called immediately after the player releases the
+	 * left direction on the d-pad.
+	 * @return Bool
+	 */
+	@:luaDotMethod
+	public static function leftButtonDown():Bool;
+
+	/**
+	 * Called immediately after the player releases the
+	 * left direction on the d-pad.
+	 * @return Bool
+	 */
+	@:luaDotMethod
+	public static function leftButtonUp():Bool;
+
+	/**
+	 * Called immediately after the player presses the down
+	 * direction on the d-pad.
+	 * @return Bool
+	 */
+	@:luaDotMethod
+	public static function downButtonDown():Bool;
+
+	/**
+	 * Called immediately after the player releases 
+	 * the down direction on the d-pad.
+	 * @return Bool
+	 */
+	@:luaDotMethod
+	public static function downButtonUp():Bool;
+
+	/**
+	 * Called immediately after the player presses the right
+	 * direction on the d-pad.
+	 * @return Bool
+	 */
+	@:luaDotMethod
+	public static function rightButtonDown():Bool;
+
+	/**
+	 * Called immediately after the player releases the 
+	 * right direction on the d-pad.
+	 * @return Bool
+	 */
+	@:luaDotMethod
+	public static function rightButtonUp():Bool;
+
+	/**
+	 * Called immediately after the player presses the up
+	 * direction on the d-pad.
+	 * @return Bool
+	 */
+	@:luaDotMethod
+	public static function upButtonDown():Bool;
+
+	/**
+	 * Called immediately after the player releases
+	 * the up direction on the d-pad.
+	 * @return Bool
+	 */
+	@:luaDotMethod
+	public static function upButtonUp():Bool;
 
 	/**
 	 * The `playdate.metadata` table contains the values in the 
@@ -43,10 +162,43 @@ extern class Playdate {
 
 	/**
 	 * Checks whether a button is pressed or not.
+	 * * kButtonA
+	 * * kButtonB
+	 * * kButtonUp
+	 * * kButtonDown
+	 * * kButtonLeft
+	 * * kButtonRight
+	 * Or one of the strings "a", "b", "up", "down", "left", "right".
 	 * @return Bool
 	 */
 	@:luaDotMethod
 	public static function buttonIsPressed(button:Button):Bool;
+
+	/**
+	 * Returns true for just one update cycle if button was pressed. 
+	 * ButtonJustPressed will not return true again until the button 
+	 * is released and pressed again. This is useful for, say, 
+	 * a player "jump" action, so the jump action is taken only 
+	 * once and not on every single update.
+	 * 
+	 * button should be one of the constants listed in 
+	 * `buttonIsPressed()`.
+	 * @param button 
+	 * @return Bool
+	 */
+	@:luaDotMethod
+	public static function buttonJustPressed(button:Button):Bool;
+
+	/**
+	 * Returns true for just one update cycle if button was released.
+	 * `buttonJustReleased` will not return true again until the button
+	 * is pressed and released again. Button should be one of the constants
+	 * listed in `buttonIsPressed`
+	 * @param button 
+	 * @return Bool
+	 */
+	@:luaDotMethod
+	public static function buttonJustReleased(button:Button):Bool;
 
 	public static var argv:Array<Dynamic>;
 
