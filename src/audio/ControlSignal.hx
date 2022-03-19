@@ -3,7 +3,7 @@ package audio;
 typedef CSEvent = {
 	step:Float,
 	value:Float,
-	interpolate:Bool
+	?interpolate:Bool
 }
 
 @:native('playdate.sound.controlsignal')
@@ -15,6 +15,28 @@ extern class ControlSignal {
 	 * effect parameters, channel pan and level, etc.
 	 */
 	public function new();
+
+	/**
+	 * `addEvent` is a simpler way of adding events one at a time
+	 * than setting the entire `events` table. Arguments are either
+	 * the values themlseves in the given order, or a table
+	 * containing values for `step`, `value`, and optionally
+	 * `interpolate`.
+	 * @param step 
+	 * @param value 
+	 * @param interpolate 
+	 */
+	overload public function addEvent(step:Float, value:Float, ?interpolate:Float):Void;
+
+	/**
+	 * `addEvent` is a simpler way of adding events one at a time
+	 * than setting the entire `events` table. Arguments are either
+	 * the values themlseves in the given order, or a table
+	 * containing values for `step`, `value`, and optionally
+	 * `interpolate`.
+	 * @param event 
+	 */
+	overload public function addEvent(event:CSEvent):Void;
 
 	/**
 	 * Clears all events from the control signal.
