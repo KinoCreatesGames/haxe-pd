@@ -1,5 +1,7 @@
 package audio;
 
+import core.Types.FilePlayVol;
+
 @:native('playdate.sound.fileplayer')
 extern class FilePlayer {
 	/**
@@ -72,4 +74,26 @@ extern class FilePlayer {
 	 * @return Float
 	 */
 	public function getRate():Float;
+
+	/**
+	 * Returns the current volume for the fileplayer,
+	 * a single value for mono sources or a pair
+	 * of values (left, right) for stereo sources.
+	 * @return Float
+	 */
+	public function getvolume():FilePlayVol;
+
+	/**
+	 * Sets the current offset of the fileplayer, in seconds.
+	 * This value is not adjusted for rate.
+	 * @param seconds 
+	 */
+	public function setOffset(seconds:Float):Void;
+
+	/**
+	 * Gets the current offset of the fileplayer,
+	 * in seconds. This value is not adjusted for rate.
+	 * @return Float
+	 */
+	public function getOffset():Float;
 }

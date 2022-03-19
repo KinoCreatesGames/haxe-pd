@@ -79,3 +79,8 @@ import geometry.Point;
 	@:optional
 	var error:String;
 }
+
+@:multiReturn extern class FilePlayVol {
+	var left:Float;
+	var right:Float;
+}
