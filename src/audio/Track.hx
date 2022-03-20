@@ -14,7 +14,52 @@ typedef Note = {
 extern class Track {
 	public function new();
 
-	public function setNotes(list:Note):Void;
+	/**
+	 * Adds a single note even to the track, letting you
+	 * specifiy `step, note, length, and velocity` directly. The second
+	 * format allows you to pack them into a table, using
+	 * the format returned by `getNotes()`. The `note` argument can be
+	 * a MIDI note number or a note name like `Db3`. `length` is a length
+	 * of the note in steps, not time--that is, it follows the sequence's
+	 * tempo. The default velocity is 1.0.
+	 * 
+	 * See `setNotes()` for the ability to add more than one note at a time.
+	 * @param table 
+	 */
+	public function addNote(table:Note):Void;
+
+	/**
+	 * Set multiples notes at once, each array element should be
+	 * a table containing values for the keys. The Tables contain values
+	 * for keys `step, note, length, velocity`. 
+	 * 
+	 * The table contain values for keys `step, note. length, and velocity`.
+	 * If `step` is given, the function returns only the notes at
+	 * that step; if both `step` and `endstep` are set, it returns
+	 * the notes between the two steps (including ntoes at endstep).
+	 * 
+	 * The `note` field in the event tables is always a MIDI note number
+	 * value, even if the note was added using the string notation.
+	 * @param list   
+	 */
+	public function setNotes(list:Array<Note>):Void;
+
+	/**
+	 * Returns an array of tables 
+	 * representing the note events in the track.
+	 * 
+	 * The table contain values for keys `step, note. length, and velocity`.
+	 * If `step` is given, the function returns only the notes at
+	 * that step; if both `step` and `endstep` are set, it returns
+	 * the notes between the two steps (including ntoes at endstep).
+	 * 
+	 * The `note` field in the event tables is always a MIDI note number
+	 * value, even if the note was added using the string notation.
+	 * @param step 
+	 * @param endStep 
+	 * @return Array<Note>
+	 */
+	public function getNotes(?step:Float, ?endStep:Float):Array<Note>;
 
 	/**
 	 * Returns the length, in steps, of the track-- that is,
