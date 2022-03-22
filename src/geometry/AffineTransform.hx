@@ -40,6 +40,25 @@ extern class AffineTransform {
 	public function reset():Void;
 
 	/**
+	 * Mutates the caller. The affine transform af is concatted
+	 * to the caller.
+	 * 
+	 * Concatenation combines two affine transformation matrices
+	 * by multiplying them together. You might perform  several
+	 * concatentations in order to create a single affine
+	 * transform that contains the cumulative effects
+	 * of several transformations.
+	 * 
+	 * Note that matrix operations are not commutative -- the order
+	 * in which you concatenate matrices is important. That is,
+	 * the result of multiplying matrix t1 by matrix t2 does
+	 * not necesarrily equal the result of multiplying matrix
+	 * t2 by  matrix t1.
+	 * @param af 
+	 */
+	public function concat(af:AffineTransform):Void;
+
+	/**
 	 * Mutates the caller by applying a translate transformation.
 	 * x values are moved by dx, y values by dy.
 	 * @param dx 
@@ -81,6 +100,21 @@ extern class AffineTransform {
 	 * @returns AffineTransform
 	 */
 	public function scaleBy(sx:Float, ?sy:Float):AffineTransform;
+
+	/**
+	 * Mutates the caller by applying a rotation transformation.
+	 * 
+	 * `angle` is the value, in degrees, by which to rotate the affine
+	 * transformation. A positive value specifies clockwise rotation
+	 * and a negative value specifies counterclockwise rotation.
+	 * 
+	 * If the optional x and y arguments or `point` are given, the
+	 * transform rotates around (x, y) or point instead of (0,0).
+	 * @param angle 
+	 * @param x 
+	 * @param y 
+	 */
+	public function rotate(angle:Float, ?x:Float, ?y:Float):Void;
 
 	/**
 	 * Modifiers the polygon by applying the affine

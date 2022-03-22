@@ -6,6 +6,13 @@ typedef Button = String;
 
 @:native('playdate')
 extern class Playdate {
+	/**
+	 * This variable--not a function, so don't invoke with ()--
+	 * it is set to 1 when running inside of the simulator
+	 * and is nil otherwise.
+	 */
+	public static var isSimulator:Int;
+
 	@:luaDotMethod
 	public static var graphics:Graphics;
 
@@ -433,4 +440,57 @@ extern class Playdate {
 	 */
 	@:luaDotMethod
 	public static function setGCScaling(min:Float, max:Float):Void;
+
+	/**
+	 * Returns a table holding booleans with the following
+	 * keys: charging (for any sort of charging), and USB (for USB-
+	 * specific charging). Test these values for `true` to see 
+	 * if the device is being charged, and by what means.
+	 * @return Float
+	 */
+	@:luaDotMethod
+	public static function getPowerStatus():lua.Table<String, Bool>;
+
+	/**
+	 * Returns a value from 0-100 denoting the current level of battery 
+	 * charge. 0 = empty; 100 = full.
+	 * 
+	 * @return Float
+	 */
+	@:luaDotMethod
+	public static function getBatteryPercentage():Float;
+
+	/**
+	 * Returns the battery's  current voltage level.
+	 * @return String
+	 */
+	@:luaDotMethod
+	public static function getBatteryVoltage():String;
+
+	/**
+	 * Clears the simulator console.
+	 */
+	@:luaDotMethod
+	public static function clearConsole():Void;
+
+	/**
+	 * Sets the color of `debugDraw` overlay image.
+	 * @param r 
+	 * @param g 
+	 * @param b 
+	 * @param a 
+	 */
+	@:luaDotMethod
+	public static function setDebugDrawColor(r:Float, g:Float, b:Float, a:Float):Void;
+
+	/**
+	 * Called immediately after `update`, any drawing performed during
+	 * this callback is overlaid on the display in 50% transparent red
+	 * (or another color selected with `setDebugDrawColor()`).
+	 * 
+	 * White pixels are drawin in the `debugDrawColor` .
+	 * Black pixels are transparent.
+	 * 
+	 */
+	public static function debugDraw():Void;
 }
