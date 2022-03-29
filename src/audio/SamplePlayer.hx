@@ -4,7 +4,7 @@ import core.Types.FilePlayVol;
 import haxe.extern.EitherType;
 
 @:native('playdate.sound.sampleplayer')
-extern class SamplePlayer {
+extern class SamplePlayer extends Source {
 	/**
 	 * Returns a new `sampleplayer` object, with the sound
 	 * data loaded in memory. If the sample can't be loaded, the 

@@ -6,7 +6,7 @@ import audio.Track.Note;
  * Instrument
  */
 @:native('playdate.sounds.instrument')
-extern class Instrument {
+extern class Instrument extends Source {
 	public function new(?synth:Synth);
 
 	/**

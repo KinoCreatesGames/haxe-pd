@@ -3,7 +3,7 @@ package audio;
 import core.Types.FilePlayVol;
 
 @:native('playdate.sound.fileplayer')
-extern class FilePlayer {
+extern class FilePlayer extends Source {
 	/**
 	 * Returns a fileplayer object, which can
 	 * stream samples from disk. The file to play is set with the

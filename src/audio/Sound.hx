@@ -2,6 +2,7 @@ package audio;
 
 typedef SEffect = String;
 typedef PassType = String;
+typedef WaveForm = String;
 
 @:native('playdate.sound')
 extern class Sound {
@@ -39,6 +40,22 @@ extern class Sound {
 	 * "highshelf" or "hishelf"
 	 */
 	public static var kFilterHighShelf:PassType;
+
+	public static var kWaveSine:WaveForm;
+
+	public static var kWaveSquare:WaveForm;
+
+	public static var kWaveSawtooth:WaveForm;
+
+	public static var kWaveTriangle:WaveForm;
+
+	public static var kWaveNoise:WaveForm;
+
+	public static var kWavePOPhase:WaveForm;
+
+	public static var kWavePODigital:WaveForm;
+
+	public static var kWavePOVosim:WaveForm;
 
 	/**
 	 * Returns the current time, in seconds, as measured by

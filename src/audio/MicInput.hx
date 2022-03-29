@@ -8,6 +8,7 @@ extern class MicInput {
 	 * reached the end of the buffer. The recording's 
 	 * completion callback is called immediately.
 	 */
+	@:luaDotMethod
 	public static function stopRecording():Void;
 
 	/**
