@@ -1,5 +1,6 @@
 package core;
 
+import core.Types.XY;
 import geometry.Arc;
 import core.Types.WidthHeight;
 import geometry.Rect;
@@ -102,6 +103,59 @@ extern class Graphics {
 	 */
 	@:luaDotMethod
 	public static function clearClipRect():Void;
+
+	/**
+	 * `setScreenClipRect` sets the clipping rectangle for all subsequent 
+	 * graphics drawing, including bitmaps. The argument can either be
+	 * separate dimensions or a rect object. The clip rect is
+	 * automatically cleared at the beginning of the `update` callback.
+	 * 
+	 * The function uses screen coordinates. 
+	 * @param rect 
+	 */
+	@:luaDotMethod
+	overload public static function setScreenClipRect(rect:Rect):Void;
+
+	/**
+	 * `setScreenClipRect` sets the clipping rectangle for all subsequent 
+	 * graphics drawing, including bitmaps. The argument can either be
+	 * separate dimensions or a rect object. The clip rect is
+	 * automatically cleared at the beginning of the `update` callback.
+	 * 
+	 * The function uses screen coordinates. 
+	 * @param rect 
+	 */
+	@:luaDotMethod
+	overload public static function setScreenClipRect(x:Float, y:Float, width:Float, height:Float):Void;
+
+	/**
+	 * Gets the clip rectangle, but uses screen coordiantes instead
+	 * of world coordinates; it ignores the current drawing offset.
+	 */
+	@:luaDotMethod
+	public static function getScreenClipRect():Void;
+
+	/**
+	 * Sets the current stencil to the given image. If *tile* is set,
+	 * the stencil will be tiled; in this case, the image width
+	 * must be multiple of 32 pixels.
+	 * @param image 
+	 * @param tile 
+	 */
+	@:luaDotMethod
+	public static function setStencilImage(image:Image, ?tile:Bool):Void;
+
+	/**
+	 * Clears the stencil buffer.
+	 */
+	@:luaDotMethod
+	public static function clearStencil():Void;
+
+	/**
+	 * Deprecated
+	 */
+	@:luaDotMethod
+	public static function clearStencilImage():Void;
 
 	/**
 	 * Draws a filled rectangle
@@ -447,4 +501,77 @@ extern class Graphics {
 	 */
 	@:luaDotMethod
 	public static function pushContext(?image:Image):Void;
+
+	/**
+	 * Asynchronously returns an image representing a QR code 
+	 * for the passed-in string to the function callback. 
+	 * The arguments passed to the callback are image, errorMessage.
+	 *  
+	 * (If an errorMessage string is returned, image will be nil.)
+	 * desiredEdgeDimension lets you specify an approximate 
+	 * edge dimension in pixels for the desired QR code, 
+	 * though the function has limited flexibility in sizing QR codes, 
+	 * based on the amount of information to be encoded, 
+	 * and the restrictions of a 1-bit screen.
+	 *  
+	 * The function will attempt to generate a QR code smaller 
+	 * than desiredEdgeDimension if possible. 
+	 * (Note that QR codes always have the same width and height.)
+	 * 
+	 * If you specify nil for desiredEdgeDimension, the returned image will balance small size with easy readability. If you specify 0, the returned image will be the smallest possible QR code for the specified string.
+	 * generateQRCode() will return a reference to the timer 
+	 * it uses to run asynchronously. 
+	 * If you wish to stop execution of the background 
+	 * process generating the QR code, call `:remove()` on that 
+	 * returned timer.
+	 * @param stringToEnocde 
+	 * @param desiredEdgeDimension 
+	 * @param callback 
+	 * @return -> Void):Void
+	 */
+	@:luaDotMethod
+	public static function generateQRCode(stringToEnocde:String, desiredEdgeDimension:Float, callback:(Image, String) -> Void):Void;
+
+	/**
+	 * `setDrawOffset(x,y)` offsets the origin point for all drawing
+	 * calls to x, y (can be negative). So, for example, if the offset
+	 * is set to -20, -20, an image draw at 20, 20 will appear at the
+	 * origin (in the upper left corner.)
+	 * 
+	 * This is useful, for example, for centering a "camera" on sprite
+	 * that is moving around a world larger than the screen.
+	 * @param x 
+	 * @param y 
+	 */
+	@:luaDotMethod
+	public static function setDrawOffset(x:Float, y:Float):Void;
+
+	/**
+	 * `getDrawOffset()` returns the current draw offset as a 
+	 * tuple (x, y).
+	 * @return XY
+	 */
+	@:luaDotMethod
+	public static function getDrawOffset():XY;
+
+	/**
+	 * Returns a copy of the contents of the last completed frame.
+	 * A "screenshot" as an  `image`.
+	 * @return Image
+	 * 
+	 * Display functions like `setMosaic(), setInverted(), setScale()`, 
+	 * and `setOffset()` do not affect the returned image.
+	 */
+	@:luaDotMethod
+	public static function getDisplayImage():Image;
+
+	/**
+	 * Returns a copy of the working frame buffer -- the current
+	 * frame, in progress as a `image`.
+	 * 
+	 * Display functions like `setMosaic(), setInverted(), setScale()`, 
+	 * and `setOffset()` do not affect the returned image.
+	 * @return Image
+	 */
+	public static function getWorkingImage():Image;
 }
