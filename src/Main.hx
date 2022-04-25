@@ -41,6 +41,9 @@ class Main {
 		// Graphics.fillRect(center + (Math.cos(t) * radius), center + (Math.sin(t) * radius), size, size);
 
 		// Try Bar
+		Playdate.deviceWillSleep = () -> {
+			trace('Test');
+		}
 		var bar = new VertBar(50, 40, 150, 20);
 		bar.updatePerc(Math.abs(Math.sin(t)));
 		bar.draw();

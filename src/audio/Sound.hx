@@ -1,5 +1,7 @@
 package audio;
 
+import core.Types.HeadphoneState;
+
 typedef SEffect = String;
 typedef PassType = String;
 typedef WaveForm = String;
@@ -95,4 +97,32 @@ extern class Sound {
 	 */
 	@:luaDotMethod
 	public static function removeEffect(effect:Effect):Void;
+
+	/**
+	 * Returns a pair of booleans (headphone, mic) indicating whether
+	 * headphones are plugged in, and if so whethery they have a microphone
+	 * attached. If changeCallback is a function, it will be called 
+	 * every time the headphone state changes, until it is cleared
+	 * by calling `playdate.sound.getHeadphoneState(nil)`. If a change
+	 * callback is set, the audio does **not** automatically
+	 * switch from speaker to headphones when headphones arep lugged in
+	 * (and vice versa), so the callback should use
+	 * `playdate.sound.setOutputsActive` to change the output
+	 * if needed.
+	 * @param changeCallback 
+	 * @return HeadphoneState
+	 */
+	@:luaDotMethod
+	public static function getHeadphoneState(changeCallback:Void->Void):HeadphoneState;
+
+	/**
+	 * Forces sound to be played on the headphones or on the speaker,
+	 * regardless of whether headphones are plugged in or not. (With the c
+	 * aveat that it is not actually possible to play on the headphones if 
+	 * they're not plugged in.) This function has no effect in the simulator.
+	 * @param headphone 
+	 * @param speaker 
+	 */
+	@:luaDotMethod
+	public static function setOutputsActive(headphone:Bool, speaker:Bool):Void;
 }

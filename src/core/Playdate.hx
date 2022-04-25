@@ -1,5 +1,7 @@
 package core;
 
+import core.Types.SysLang;
+import ui.Menu;
 import lua.Table;
 
 typedef Button = String;
@@ -492,5 +494,168 @@ extern class Playdate {
 	 * Black pixels are transparent.
 	 * 
 	 */
+	@:luaDotMethod
 	public static function debugDraw():Void;
+
+	/**
+	 * Lets you act on keyboard keypresses when running in the
+	 * simulator ONLY. These can be useful for adding debugging
+	 * functions that can be enabled via your keyboard.
+	 * 
+	 * `key` is a string containing the character pressed or released
+	 * on the keyboard. Note that:
+	 * * The key in question needs to have a textual representation or 
+	 * these functions will not be called. For instance, alphanumberic
+	 * keys will call these functions; keyboard directional arrows will
+	 * not.
+	 * * If the keypress in question is already in use by the Simulator
+	 * for another purpose (say, to control the d-pad or A/B buttons), 
+	 * these functions will not be called.
+	 * @param key 
+	 * @return Bool
+	 */
+	@:luaDotMethod
+	public static function keyPressed(key:String):Bool;
+
+	/**
+	 * Lets you act on keyboard key releases when running in the Simulator
+	 * ONLY. These can be useful for adding debugging functions that
+	 * can be enabled via your keyboard.
+	 * @param key 
+	 * @return Bool
+	 */
+	@:luaDotMethod
+	public static function keyReleased(key:String):Bool;
+
+	/**
+	 * Called when the player chooses to exit the game
+	 * via the System Menu or Menu button.
+	 * @return Bool
+	 */
+	@:luaDotMethod
+	public dynamic static function gameWillTerminate():Void;
+
+	/**
+	 * If your game is running on the Playdate when the device is locked,
+	 * this function will be called. Implementing this function
+	 * allows your game to take special action when the Playdate is locked,
+	 * e.g., saving state.
+	 */
+	public dynamic static function deviceWillLock():Void;
+
+	/**
+	 * Notifies your game the Playdate is about to be locked
+	 * or woken up.
+	 * @return Bool
+	 */
+	@:luaDotMethod
+	public dynamic static function deviceDidUnlock():Void;
+
+	/**
+	 * Called before the device goes to low-power sleep mode 
+	 * because of a low battery.
+	 * 
+	 * If your game saves its state, playdate.gameWillTerminate
+	 * and playdate.deviceWillSleep are good opportunities 
+	 * to do it.
+	 */
+	@:luaDotMethod
+	public dynamic static function deviceWillSleep():Void;
+
+	/**
+	 * Called before the system pauses the game.
+	 * (In the current version of Playdate OS, this only  happens 
+	 * when the device's Menu button is pushed.) Implementing 
+	 * these functions allows your game to take special action when
+	 * it is paused, e.g.,updating the menu image.
+	 */
+	@:luaDotMethod
+	public dynamic static function gameWillPause():Void;
+
+	/**
+	 * called before the system resumes the game.
+	 */
+	@:luaDotMethod
+	public dynamic static function gameWillResume():Void;
+
+	@:luaDotMethod
+	/**
+	 * Returns a `playdate.menu` object. Use this to add your custom
+	 * menu items.
+	 * @return Menu
+	 */
+	public static function getSystemMenu():Menu;
+
+	/**
+	 * `playdate.getReducedFlashing()` Check this at the beginning
+	 * of your game. If true, your game should avoid visuals that
+	 * could be problematic for people with sensitivities to 
+	 * flashing lights or patterns.
+	 * @return Bool
+	 */
+	@:luaDotMethod
+	public static function getReduceFlashing():Bool;
+
+	/**
+	 * Returns the current language of the system, which
+	 * will be one of the constants `playdate.graphics.font.kLangageEnglish` 
+	 * or `playdate.graphics.font.KLanguageJapanese`.
+	 * @return SysLang
+	 */
+	@:luaDotMethod
+	public static function getSystemLanguage():SysLang;
+
+	/**
+	 * Returns true if the user has checked the "Upside Down" option
+	 * in Playdate Settings; false otherwise. 
+	 * `Upside down mode can be convenient for players wanting to hold
+	 * Playdate upside-down so they can use their left hand to operate
+	 * the crank.).
+	 * 
+	 * Reported d-pad directions are flipped when in Upside Down mode 
+	 * — RIGHT will be reported as LEFT, UP as DOWN, etc. — 
+	 * so that the d-pad will make sense to a user holding Playdate 
+	 * upside-down. However, the A and B buttons — 
+	 * since they are still labeled as "A" and "B" — 
+	 * retain their normal meanings and will be reported as usual.
+	 *
+	 * 
+	 * @return Bool
+	 */
+	public static function getFlipped():Bool;
+
+	/**
+	 * The accelerometer is off by default, to save a bit of power. 
+	 * If you will be using the accelerometer in your game, 
+	 * you’ll first need to call `playdate.startAccelerometer()` 
+	 * then wait for the next update cycle before reading its values. 
+	 * If you won’t be using the accelerometer again for a while, 
+	 * calling `playdate.stopAccelerometer()` will put it back into a 
+	 * low-power idle state.
+	 */
+	public static function startAccelerometer():Void;
+
+	/**
+	 * The accelerometer is off by default, to save a bit of power. 
+	 * If you will be using the accelerometer in your game, 
+	 * you’ll first need to call `playdate.startAccelerometer()` 
+	 * then wait for the next update cycle before reading its values. 
+	 * If you won’t be using the accelerometer again for a while, 
+	 * calling `playdate.stopAccelerometer()` will put it back into a 
+	 * low-power idle state.
+	 */
+	public static function stopAccelerometer():Void;
+
+	/**
+	 * If the accelerometer has been turned on with 
+	 * `playdate.startAccelerometer()`, returns the  x,y, and z values
+	 * from the accelerometer as a list. Positive x points right,
+	 * positive y points to the bottom of the screen, and positive z
+	 * points through the screen away from the viewer. For example,
+	 * with the device held upright this function returns
+	 * the values (0, 1, 0). With it flat on its back, it returns
+	 * (0, 0, 1).
+	 * @return Array<Float>
+	 */
+	public static function readAccelerometer():Array<Float>;
 }

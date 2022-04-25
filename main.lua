@@ -544,10 +544,13 @@ Main.main = function()
   local center = 100;
   local radius = 50;
   local t = playdate.getElapsedTime();
+  playdate.deviceWillSleep = function() 
+    __haxe_Log.trace("Test", _hx_o({__fields__={fileName=true,lineNumber=true,className=true,methodName=true},fileName="src/Main.hx",lineNumber=45,className="Main",methodName="update"}));
+  end;
   local bar = __extra_VertBar.new(50, 40, 150, 20);
   bar:updatePerc(_G.math.abs(_G.math.sin(t)));
   bar:draw();
-  __haxe_Log.trace(center * (_G.math.cos(t) + radius), _hx_o({__fields__={fileName=true,lineNumber=true,className=true,methodName=true},fileName="src/Main.hx",lineNumber=47,className="Main",methodName="update"}));
+  __haxe_Log.trace(center * (_G.math.cos(t) + radius), _hx_o({__fields__={fileName=true,lineNumber=true,className=true,methodName=true},fileName="src/Main.hx",lineNumber=50,className="Main",methodName="update"}));
   coroutine.yield();
   end;
 end

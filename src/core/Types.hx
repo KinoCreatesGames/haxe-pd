@@ -1,5 +1,6 @@
 package core;
 
+import ui.MenuItem;
 import geometry.Rect;
 import geometry.Point;
 
@@ -85,3 +86,15 @@ import geometry.Point;
 	@:optional
 	var right:Float;
 }
+
+@:multiReturn extern class HeadphoneState {
+	var headphone:Bool;
+	var mic:Bool;
+}
+
+@:multiReturn extern class MenuItemReturn {
+	var menuItem:Null<MenuItem>;
+	var errorMessage:String;
+}
+
+typedef SysLang = String;
